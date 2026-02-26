@@ -9,8 +9,9 @@ const {
     getAllComplaints,
     updateComplaint
 } = require('../controllers/complaintController');
+const { validateComplaint } = require('../middleware/validation');
 
-router.post('/', protect, authorize('student'), upload.single('attachment'), createComplaint);
+router.post('/', protect, authorize('student'), upload.single('attachment'), validateComplaint, createComplaint);
 router.get('/my', protect, authorize('student'), getMyComplaints);
 router.get('/assigned', protect, authorize('staff'), getAssignedComplaints);
 router.get('/all', protect, authorize('admin'), getAllComplaints);
