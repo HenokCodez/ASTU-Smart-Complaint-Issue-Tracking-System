@@ -33,6 +33,11 @@ const complaintSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    assignedStaffId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
     remarks: {
         type: String,
         default: null

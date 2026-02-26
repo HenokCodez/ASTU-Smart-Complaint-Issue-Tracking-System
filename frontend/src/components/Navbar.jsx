@@ -48,7 +48,7 @@ function Navbar() {
                 </div>
                 <div className="flex items-center gap-4">
                     <span className="text-xs text-neutral-400 hidden sm:inline">
-                        {user?.name} · <span className="capitalize">{user?.role}</span>
+                        {user?.name} · <span className="capitalize">{user?.role}</span> {user?.department ? `(${user.department})` : ''}
                     </span>
                     <button
                         onClick={handleLogout}

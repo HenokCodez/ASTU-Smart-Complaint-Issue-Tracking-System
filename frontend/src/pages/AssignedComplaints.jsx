@@ -112,6 +112,17 @@ function ComplaintCard({ complaint, statusColor, onUpdate }) {
                 </div>
             )}
 
+            {complaint.assignedDepartment && (
+                <p className="text-xs text-neutral-400 mt-2">
+                    <span className="font-medium text-neutral-500">Department:</span> {complaint.assignedDepartment}
+                </p>
+            )}
+
+            {complaint.assignedStaffId && (
+                <p className="text-xs text-neutral-400 mt-1">
+                    <span className="font-medium text-neutral-500">Staff In Charge:</span> {complaint.assignedStaffId.name}
+                </p>
+            )}
             {editing ? (
                 <div className="mt-4 pt-4 border-t border-neutral-100 space-y-3">
                     <select

@@ -6,23 +6,30 @@ import Navbar from '../components/Navbar';
 function AllComplaints() {
     const { user } = useAuth();
     const [complaints, setComplaints] = useState([]);
+    const [staff, setStaff] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('All');
 
     useEffect(() => {
-        const fetchComplaints = async () => {
+        const fetchData = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/complaints/all', {
-                    headers: { Authorization: `Bearer ${user.token}` }
-                });
-                setComplaints(res.data);
+                const [complaintsRes, staffRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/complaints/all', {
+                        headers: { Authorization: `Bearer ${user.token}` }
+                    }),
+                    axios.get('http://localhost:5000/api/users/staff', {
+                        headers: { Authorization: `Bearer ${user.token}` }
+                    })
+                ]);
+                setComplaints(complaintsRes.data);
+                setStaff(staffRes.data);
             } catch (err) {
                 console.error(err);
             } finally {
                 setLoading(false);
             }
         };
-        fetchComplaints();
+        fetchData();
     }, [user.token]);
 
     const handleUpdate = async (id, updates) => {
@@ -80,6 +87,7 @@ function AllComplaints() {
                             <AdminComplaintCard
                                 key={c._id}
                                 complaint={c}
+                                staff={staff}
                                 statusColor={statusColor}
                                 onUpdate={handleUpdate}
                             />
@@ -91,14 +99,15 @@ function AllComplaints() {
     );
 }
 
-function AdminComplaintCard({ complaint, statusColor, onUpdate }) {
+function AdminComplaintCard({ complaint, staff, statusColor, onUpdate }) {
     const [editing, setEditing] = useState(false);
     const [status, setStatus] = useState(complaint.status);
     const [remarks, setRemarks] = useState(complaint.remarks || '');
     const [assignedDepartment, setAssignedDepartment] = useState(complaint.assignedDepartment || '');
+    const [assignedStaffId, setAssignedStaffId] = useState(complaint.assignedStaffId?._id || complaint.assignedStaffId || '');
 
     const handleSave = () => {
-        onUpdate(complaint._id, { status, remarks, assignedDepartment });
+        onUpdate(complaint._id, { status, remarks, assignedDepartment, assignedStaffId });
         setEditing(false);
     };
 
@@ -136,7 +145,13 @@ function AdminComplaintCard({ complaint, statusColor, onUpdate }) {
 
             {complaint.assignedDepartment && !editing && (
                 <p className="text-xs text-neutral-400 mt-2">
-                    <span className="font-medium text-neutral-500">Assigned to:</span> {complaint.assignedDepartment}
+                    <span className="font-medium text-neutral-500">Department:</span> {complaint.assignedDepartment}
+                </p>
+            )}
+
+            {complaint.assignedStaffId && !editing && (
+                <p className="text-xs text-neutral-400 mt-1">
+                    <span className="font-medium text-neutral-500">Staff:</span> {complaint.assignedStaffId.name}
                 </p>
             )}
 
@@ -151,13 +166,33 @@ function AdminComplaintCard({ complaint, statusColor, onUpdate }) {
                         <option value="In Progress">In Progress</option>
                         <option value="Resolved">Resolved</option>
                     </select>
-                    <input
-                        type="text"
+                    <select
                         value={assignedDepartment}
                         onChange={(e) => setAssignedDepartment(e.target.value)}
-                        placeholder="Assign to department..."
                         className="w-full px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 transition"
-                    />
+                    >
+                        <option value="">Unassigned</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Dormitory">Dormitory</option>
+                        <option value="Cafeteria">Cafeteria</option>
+                        <option value="Library">Library</option>
+                        <option value="IT">IT</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <select
+                        value={assignedStaffId}
+                        onChange={(e) => setAssignedStaffId(e.target.value)}
+                        className="w-full px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 transition"
+                    >
+                        <option value="">Specific Staff (Optional)</option>
+                        {staff.map((s) => (
+                            <option key={s._id} value={s._id}>
+                                {s.name} ({s.department || 'No Dept'})
+                            </option>
+                        ))}
+                    </select>
+
                     <textarea
                         value={remarks}
                         onChange={(e) => setRemarks(e.target.value)}
@@ -165,6 +200,7 @@ function AdminComplaintCard({ complaint, statusColor, onUpdate }) {
                         placeholder="Add remarks..."
                         className="w-full px-3 py-2 bg-neutral-50 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 transition resize-none"
                     />
+
                     <div className="flex gap-2">
                         <button
                             onClick={handleSave}

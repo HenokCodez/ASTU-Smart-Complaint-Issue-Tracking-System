@@ -29,8 +29,14 @@ const getMyComplaints = async (req, res) => {
 
 const getAssignedComplaints = async (req, res) => {
     try {
-        const complaints = await Complaint.find({ assignedDepartment: req.user.name })
+        const complaints = await Complaint.find({
+            $or: [
+                { assignedDepartment: req.user.department },
+                { assignedStaffId: req.user._id }
+            ]
+        })
             .populate('studentId', 'name email')
+            .populate('assignedStaffId', 'name email')
             .sort({ createdAt: -1 });
         res.json(complaints);
     } catch (error) {
@@ -42,6 +48,7 @@ const getAllComplaints = async (req, res) => {
     try {
         const complaints = await Complaint.find()
             .populate('studentId', 'name email')
+            .populate('assignedStaffId', 'name email')
             .sort({ createdAt: -1 });
         res.json(complaints);
     } catch (error) {
@@ -56,10 +63,11 @@ const updateComplaint = async (req, res) => {
             return res.status(404).json({ message: 'Complaint not found' });
         }
 
-        const { status, remarks, assignedDepartment } = req.body;
+        const { status, remarks, assignedDepartment, assignedStaffId } = req.body;
         if (status) complaint.status = status;
         if (remarks) complaint.remarks = remarks;
         if (assignedDepartment) complaint.assignedDepartment = assignedDepartment;
+        if (assignedStaffId) complaint.assignedStaffId = assignedStaffId;
 
         const updated = await complaint.save();
         res.json(updated);

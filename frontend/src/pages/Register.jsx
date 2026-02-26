@@ -8,7 +8,8 @@ function Register() {
         name: '',
         email: '',
         password: '',
-        role: 'student'
+        role: 'student',
+        department: ''
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -85,6 +86,24 @@ function Register() {
                         <option value="staff">Staff</option>
                         <option value="admin">Admin</option>
                     </select>
+
+                    {formData.role === 'staff' && (
+                        <select
+                            name="department"
+                            value={formData.department}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 bg-white border border-neutral-200 rounded-xl text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition appearance-none"
+                        >
+                            <option value="">Select Department</option>
+                            <option value="Academic">Academic</option>
+                            <option value="Dormitory">Dormitory</option>
+                            <option value="Cafeteria">Cafeteria</option>
+                            <option value="Library">Library</option>
+                            <option value="IT">IT</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    )}
 
                     <button
                         type="submit"
