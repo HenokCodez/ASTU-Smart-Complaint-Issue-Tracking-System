@@ -60,8 +60,8 @@ function AllComplaints() {
                                 key={s}
                                 onClick={() => setFilter(s)}
                                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${filter === s
-                                        ? 'bg-neutral-900 text-white'
-                                        : 'bg-white border border-neutral-200 text-neutral-500 hover:text-neutral-900'
+                                    ? 'bg-neutral-900 text-white'
+                                    : 'bg-white border border-neutral-200 text-neutral-500 hover:text-neutral-900'
                                     }`}
                             >
                                 {s}
@@ -118,6 +118,22 @@ function AdminComplaintCard({ complaint, statusColor, onUpdate }) {
 
             <p className="text-sm text-neutral-500 mt-3">{complaint.description}</p>
 
+            {complaint.attachment && (
+                <div className="mt-3">
+                    <a
+                        href={`http://localhost:5000/uploads/${complaint.attachment}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                    >
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                        </svg>
+                        View Attachment
+                    </a>
+                </div>
+            )}
+
             {complaint.assignedDepartment && !editing && (
                 <p className="text-xs text-neutral-400 mt-2">
                     <span className="font-medium text-neutral-500">Assigned to:</span> {complaint.assignedDepartment}
@@ -171,6 +187,7 @@ function AdminComplaintCard({ complaint, statusColor, onUpdate }) {
                             <span className="font-medium text-neutral-500">Remarks:</span> {complaint.remarks}
                         </p>
                     )}
+
                     <button
                         onClick={() => setEditing(true)}
                         className="text-xs text-neutral-500 hover:text-neutral-900 font-medium transition ml-auto"
