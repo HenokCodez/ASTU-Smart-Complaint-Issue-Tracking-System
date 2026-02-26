@@ -14,6 +14,7 @@ function Home() {
             { to: '/assigned', label: 'Assigned Complaints', desc: 'View and update tickets' }
         ],
         admin: [
+            { to: '/admin-dashboard', label: 'Admin Dashboard', desc: 'View complaint statistics' },
             { to: '/all-complaints', label: 'All Complaints', desc: 'Manage all tickets' }
         ]
     };

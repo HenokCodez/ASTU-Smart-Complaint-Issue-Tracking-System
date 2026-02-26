@@ -22,6 +22,7 @@ function Navbar() {
         ],
         admin: [
             { to: '/', label: 'Home' },
+            { to: '/admin-dashboard', label: 'Dashboard' },
             { to: '/all-complaints', label: 'All Complaints' }
         ]
     };
