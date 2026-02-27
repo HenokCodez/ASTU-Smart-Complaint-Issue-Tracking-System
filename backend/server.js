@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config();
 const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
@@ -9,8 +10,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
 const userRoutes = require('./routes/userRoutes');
-
-dotenv.config();
+const chatRoutes = require('./routes/chatRoutes');
 
 connectDB();
 
@@ -32,6 +32,7 @@ app.use('/api/', limiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/complaints', complaintRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/chat', chatRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {

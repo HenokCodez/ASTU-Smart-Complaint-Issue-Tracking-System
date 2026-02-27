@@ -1,6 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Chatbot from '../components/Chatbot';
 
 function Home() {
     const { user } = useAuth();
@@ -47,6 +48,7 @@ function Home() {
                     ))}
                 </div>
             </main>
+            {user?.role === 'student' && <Chatbot />}
         </div>
     );
 }
