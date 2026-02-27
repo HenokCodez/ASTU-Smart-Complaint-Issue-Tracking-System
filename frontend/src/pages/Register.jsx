@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import API from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 
 function Register() {
@@ -25,7 +25,7 @@ function Register() {
         setError('');
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/register', formData);
+            const res = await API.post('/auth/register', formData);
             login(res.data);
             navigate('/');
         } catch (err) {

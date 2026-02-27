@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import API, { BASE_URL } from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 
@@ -11,9 +11,7 @@ function AssignedComplaints() {
     useEffect(() => {
         const fetchComplaints = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/complaints/assigned', {
-                    headers: { Authorization: `Bearer ${user.token}` }
-                });
+                const res = await API.get('/complaints/assigned');
                 setComplaints(res.data);
             } catch (err) {
                 console.error(err);
@@ -26,10 +24,7 @@ function AssignedComplaints() {
 
     const handleUpdate = async (id, status, remarks) => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/complaints/${id}`,
-                { status, remarks },
-                { headers: { Authorization: `Bearer ${user.token}` } }
-            );
+            const res = await API.put(`/complaints/${id}`, { status, remarks });
             setComplaints(complaints.map((c) => c._id === id ? res.data : c));
         } catch (err) {
             console.error(err);
@@ -99,7 +94,7 @@ function ComplaintCard({ complaint, statusColor, onUpdate }) {
             {complaint.attachment && (
                 <div className="mt-3">
                     <a
-                        href={`http://localhost:5000/uploads/${complaint.attachment}`}
+                        href={`${BASE_URL}/uploads/${complaint.attachment}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"

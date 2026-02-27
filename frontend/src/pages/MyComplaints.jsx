@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import API, { BASE_URL } from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 
@@ -11,9 +11,7 @@ function MyComplaints() {
     useEffect(() => {
         const fetchComplaints = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/complaints/my', {
-                    headers: { Authorization: `Bearer ${user.token}` }
-                });
+                const res = await API.get('/complaints/my');
                 setComplaints(res.data);
             } catch (err) {
                 console.error(err);
@@ -63,7 +61,7 @@ function MyComplaints() {
                                 {c.attachment && (
                                     <div className="mt-3 pt-3 border-t border-neutral-100">
                                         <a
-                                            href={`http://localhost:5000/uploads/${c.attachment}`}
+                                            href={`${BASE_URL}/uploads/${c.attachment}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"

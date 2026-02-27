@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 
@@ -31,9 +31,8 @@ function SubmitComplaint() {
             data.append('category', formData.category);
             if (file) data.append('attachment', file);
 
-            await axios.post('http://localhost:5000/api/complaints', data, {
+            await API.post('/complaints', data, {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api/axios';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../context/AuthContext';
 
@@ -31,10 +31,7 @@ function Chatbot() {
         setLoading(true);
 
         try {
-            const res = await axios.post('http://localhost:5000/api/chat',
-                { message: userMsg.text },
-                { headers: { Authorization: `Bearer ${user.token}` } }
-            );
+            const res = await API.post('/chat', { message: userMsg.text });
             setChat((prev) => [...prev, { role: 'bot', text: res.data.reply }]);
         } catch (err) {
             console.error('Chatbot error:', err.response?.data || err.message);

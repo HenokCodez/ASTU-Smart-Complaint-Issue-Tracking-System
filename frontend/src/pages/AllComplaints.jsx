@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import API, { BASE_URL } from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 
@@ -14,12 +14,8 @@ function AllComplaints() {
         const fetchData = async () => {
             try {
                 const [complaintsRes, staffRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/complaints/all', {
-                        headers: { Authorization: `Bearer ${user.token}` }
-                    }),
-                    axios.get('http://localhost:5000/api/users/staff', {
-                        headers: { Authorization: `Bearer ${user.token}` }
-                    })
+                    API.get('/complaints/all'),
+                    API.get('/users/staff')
                 ]);
                 setComplaints(complaintsRes.data);
                 setStaff(staffRes.data);
@@ -34,10 +30,7 @@ function AllComplaints() {
 
     const handleUpdate = async (id, updates) => {
         try {
-            const res = await axios.put(`http://localhost:5000/api/complaints/${id}`,
-                updates,
-                { headers: { Authorization: `Bearer ${user.token}` } }
-            );
+            const res = await API.put(`/complaints/${id}`, updates);
             setComplaints(complaints.map((c) => c._id === id ? { ...res.data, studentId: c.studentId } : c));
         } catch (err) {
             console.error(err);
@@ -130,7 +123,7 @@ function AdminComplaintCard({ complaint, staff, statusColor, onUpdate }) {
             {complaint.attachment && (
                 <div className="mt-3">
                     <a
-                        href={`http://localhost:5000/uploads/${complaint.attachment}`}
+                        href={`${BASE_URL}/uploads/${complaint.attachment}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"

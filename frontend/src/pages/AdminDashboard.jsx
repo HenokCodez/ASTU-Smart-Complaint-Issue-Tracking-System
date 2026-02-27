@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import {
@@ -32,9 +32,7 @@ function AdminDashboard() {
     useEffect(() => {
         const fetchComplaints = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/complaints/all', {
-                    headers: { Authorization: `Bearer ${user.token}` }
-                });
+                const res = await API.get('/complaints/all');
                 setComplaints(res.data);
             } catch (err) {
                 console.error(err);
