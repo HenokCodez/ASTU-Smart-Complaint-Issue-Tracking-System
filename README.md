@@ -82,3 +82,39 @@ A modern, full-stack complaint management system designed for Adama Science and 
 ## 📝 Developer Notes
 - **Chatbot Context**: The AI logic is located in `backend/controllers/chatController.js`. It is strictly constrained to only answer ASTU-related questions.
 - **Security**: The system uses JWT for authentication, Helmet for headers, and HPP for parameter pollution protection.
+
+
+---
+Link: [https://astu-smart-complaint-issue-tracking.vercel.app/admin-dashboard](https://astu-smart-complaint-issue-tracking.vercel.app/)
+Backend is deployed on render and the front end on vercel
+
+---
+# site Screen Shots:
+
+## Admin Pannel
+
+<img width="1901" height="961" alt="image" src="https://github.com/user-attachments/assets/d74f0e53-7a06-4514-95ac-0f1b0f886dcc" />
+<img width="1901" height="961" alt="image" src="https://github.com/user-attachments/assets/d74f0e53-7a06-4514-95ac-0f1b0f886dcc" />
+
+<img width="1901" height="962" alt="image" src="https://github.com/user-attachments/assets/91eab562-97a6-4221-a012-ee993dbeec78" />
+<img width="1901" height="962" alt="image" src="https://github.com/user-attachments/assets/91eab562-97a6-4221-a012-ee993dbeec78" />
+
+<img width="1918" height="972" alt="image" src="https://github.com/user-attachments/assets/90f4fcf9-74f5-4df8-8732-5e7dc93f1e24" />
+<img width="1918" height="972" alt="image" src="https://github.com/user-attachments/assets/90f4fcf9-74f5-4df8-8732-5e7dc93f1e24" />
+
+## Students Page
+
+<img width="1912" height="967" alt="image" src="https://github.com/user-attachments/assets/1f2f18b8-548f-4cdd-8ce8-fd81f010f3d7" />
+<img width="1912" height="967" alt="image" src="https://github.com/user-attachments/assets/1f2f18b8-548f-4cdd-8ce8-fd81f010f3d7" />
+
+<img width="1912" height="967" alt="image" src="https://github.com/user-attachments/assets/087f0b3d-809a-496d-beff-e6ce5ded835c" />
+<img width="1912" height="967" alt="image" src="https://github.com/user-attachments/assets/087f0b3d-809a-496d-beff-e6ce5ded835c" />
+
+## Staff Dashboard
+
+<img width="1918" height="966" alt="image" src="https://github.com/user-attachments/assets/96dc0721-3f24-461c-8b41-af9d4633f41b" />
+<img width="1918" height="966" alt="image" src="https://github.com/user-attachments/assets/96dc0721-3f24-461c-8b41-af9d4633f41b" />
+
+
+
+
